@@ -43,8 +43,19 @@ function getNextService() {
   while (attempts < services.length) {
     const service = services[currentServiceIndex];
     currentServiceIndex = (currentServiceIndex + 1) % services.length;
+
+    let leastRecentService = serviceStats[service].lastUsed;
+    let currenTime = new Date().toISOString();
     
-    if (serviceStats[service].healthy) {
+    if (serviceStats[service].healthy && 
+        (leastRecentService === null || 
+         new Date(currenTime) - new Date(leastRecentService) > 10000)) { // 10 segundos de inactividad
+      if (checkServiceHealth(service)) {
+        console.log(`🔄 Seleccionando servicio: ${service}`);
+        serviceStats[service].lastUsed = currenTime;
+        serviceStats[service].requests++;
+        serviceStats[service].errors = 0; // Reseteamos errores al usar el servicio
+        currentServiceIndex = (currentServiceIndex + 1) % healthyServices.length; // Mover al siguiente servicio
       return service;
     }
     attempts++;
