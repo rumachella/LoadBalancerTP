@@ -1,0 +1,30 @@
+{
+  "name": "load-balancer-simulation",
+  "version": "1.0.0",
+  "description": "Simulación de load balancer con microservicios",
+  "main": "start-services.js",
+  "scripts": {
+    "start": "node start-services.js",
+    "dev": "node start-services.js",
+    "service": "node server.js",
+    "balancer": "node load-balancer.js",
+    "test": "node test-load-balancer.js",
+    "cleanup": "node cleanup.js",
+    "restart": "npm run cleanup && sleep 2 && npm start"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "axios": "^1.6.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.0"
+  },
+  "keywords": [
+    "load-balancer",
+    "microservices",
+    "nodejs",
+    "express"
+  ],
+  "author": "Claude",
+  "license": "MIT"
+}
